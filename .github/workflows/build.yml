@@ -1,0 +1,37 @@
+name: Release CheapMC
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "version.txt"
+      - "pack/**"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read version
+        id: version
+        run: |
+          VERSION=$(cat version.txt | tr -d '\n')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: build CheapMC
+        run: |
+          cd pack
+          zip -r ../CheapMC-${{ steps.version.outputs.version }}.zip .
+
+      - name: GitHub Release erstellen
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          name: CheapMC ${{ steps.version.outputs.version }}
+          files: CheapMC-${{ steps.version.outputs.version }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
