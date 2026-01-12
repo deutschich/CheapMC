@@ -32,43 +32,6 @@ jobs:
           cd ..
           cp CheapDesign-${{ steps.version.outputs.version }}.zip CheapMC-${{ steps.version.outputs.version }}.zip
 
-      # -------- NODE SETUP --------
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
-      - name: Install converter API
-        run: |
-          npm init -y
-          npm install @modifiedcommand/convert-minecraft-java-texture-to-bedrock-api @geekcornernpm/convert-base-api
-
-      # -------- BEDROCK CONVERT --------
-      - name: Convert CheapDesign to Bedrock MCPack
-        run: |
-          cat << 'EOF' > convert.mjs
-          import { ConsoleLog, Input, LocalFileInputEntry, LocalFileOutput } from "@geekcornernpm/convert-base-api";
-          import { ConvertJavaTextureToBedrockApi } from "@modifiedcommand/convert-minecraft-java-texture-to-bedrock-api";
-
-          const inputZip = "CheapDesign-${{ steps.version.outputs.version }}.zip";
-          const outputMcpack = "CheapDesign-${{ steps.version.outputs.version }}.mcpack";
-
-          try {
-            const output = await new ConvertJavaTextureToBedrockApi(
-              new Input(new LocalFileInputEntry(inputZip)),
-              new LocalFileOutput("output/bedrock_texture_pack.mcpack"),
-              new ConsoleLog()
-            ).convert();
-
-            console.log("Bedrock pack created:", output);
-          } catch (err) {
-            console.error(err);
-            process.exit(1);
-          }
-          EOF
-
-          node convert.mjs
-
       # -------- GITHUB RELEASE --------
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -78,6 +41,5 @@ jobs:
           files: |
             CheapDesign-${{ steps.version.outputs.version }}.zip
             CheapMC-${{ steps.version.outputs.version }}.zip
-            CheapDesign-${{ steps.version.outputs.version }}.mcpack
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
