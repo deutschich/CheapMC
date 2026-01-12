@@ -56,7 +56,7 @@ jobs:
           try {
             const output = await new ConvertJavaTextureToBedrockApi(
               new Input(new LocalFileInputEntry(inputZip)),
-              new LocalFileOutput(outputMcpack),
+              new LocalFileOutput("output/bedrock_texture_pack.mcpack"),
               new ConsoleLog()
             ).convert();
 
