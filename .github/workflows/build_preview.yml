@@ -1,0 +1,63 @@
+name: Pre-Release CheapDesign (Preview)
+
+on:
+  push:
+    branches: [ "dev" ]
+    paths:
+      - "version.txt"
+      - "pack/**"
+
+  workflow_dispatch:
+
+jobs:
+  prerelease:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # -------- VERSION --------
+      - name: Read version
+        id: version
+        run: |
+          VERSION=$(cat version.txt | tr -d '\n')
+          PREVIEW_VERSION="${VERSION}-preview"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "preview_version=$PREVIEW_VERSION" >> $GITHUB_OUTPUT
+
+      # -------- ZIP BUILD --------
+      - name: Build Java texture packs
+        run: |
+          cd pack
+          zip -r ../CheapDesign-${{ steps.version.outputs.preview_version }}.zip .
+          cd ..
+          cp CheapDesign-${{ steps.version.outputs.preview_version }}.zip CheapMC-${{ steps.version.outputs.preview_version }}.zip
+
+      # -------- DELETE OLD PRE-RELEASES (KEEP 5) --------
+      - name: Cleanup old pre-releases
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release list --limit 100 \
+            --json tagName,isPrerelease,createdAt \
+            --jq '.[] | select(.isPrerelease==true) | .tagName' \
+            | tail -n +6 \
+            | while read tag; do
+                echo "Deleting old pre-release: $tag"
+                gh release delete "$tag" -y
+              done
+
+      # -------- GITHUB PRE-RELEASE --------
+      - name: Create GitHub Pre-Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.preview_version }}
+          name: CheapDesign ${{ steps.version.outputs.preview_version }}
+          prerelease: true
+          files: |
+            CheapDesign-${{ steps.version.outputs.preview_version }}.zip
+            CheapMC-${{ steps.version.outputs.preview_version }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
