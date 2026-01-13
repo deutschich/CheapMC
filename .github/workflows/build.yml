@@ -1,4 +1,4 @@
-name: Release CheapMC
+name: Release CheapDesign
 
 on:
   push:
@@ -6,6 +6,8 @@ on:
     paths:
       - "version.txt"
       - "pack/**"
+
+  workflow_dispatch:
 
 jobs:
   release:
@@ -22,16 +24,22 @@ jobs:
           VERSION=$(cat version.txt | tr -d '\n')
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: build CheapMC
+      # -------- ZIP BUILD --------
+      - name: Build Java texture packs
         run: |
           cd pack
-          zip -r ../CheapMC-${{ steps.version.outputs.version }}.zip .
+          zip -r ../CheapDesign-${{ steps.version.outputs.version }}.zip .
+          cd ..
+          cp CheapDesign-${{ steps.version.outputs.version }}.zip CheapMC-${{ steps.version.outputs.version }}.zip
 
-      - name: GitHub Release erstellen
+      # -------- GITHUB RELEASE --------
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.version }}
-          name: CheapMC ${{ steps.version.outputs.version }}
-          files: CheapMC-${{ steps.version.outputs.version }}.zip
+          name: CheapDesign ${{ steps.version.outputs.version }}
+          files: |
+            CheapDesign-${{ steps.version.outputs.version }}.zip
+            CheapMC-${{ steps.version.outputs.version }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
