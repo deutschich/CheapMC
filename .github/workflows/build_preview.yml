@@ -24,6 +24,7 @@ jobs:
         run: |
           VERSION=$(cat version.txt | tr -d '\n')
           PREVIEW_VERSION="${VERSION}-preview"
+
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "preview_version=$PREVIEW_VERSION" >> $GITHUB_OUTPUT
 
@@ -35,27 +36,16 @@ jobs:
           cd ..
           cp CheapDesign-${{ steps.version.outputs.preview_version }}.zip CheapMC-${{ steps.version.outputs.preview_version }}.zip
 
-      # -------- DELETE OLD PRE-RELEASES (KEEP 5) --------
-      - name: Cleanup old pre-releases
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh release list --limit 100 \
-            --json tagName,isPrerelease,createdAt \
-            --jq '.[] | select(.isPrerelease==true) | .tagName' \
-            | tail -n +6 \
-            | while read tag; do
-                echo "Deleting old pre-release: $tag"
-                gh release delete "$tag" -y
-              done
-
-      # -------- GITHUB PRE-RELEASE --------
-      - name: Create GitHub Pre-Release
+      # -------- GITHUB PRE-RELEASE (OVERWRITE) --------
+      - name: Create or update GitHub Pre-Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.preview_version }}
           name: CheapDesign ${{ steps.version.outputs.preview_version }}
           prerelease: true
+          allowUpdates: true
+          replace_assets: true
+
           files: |
             CheapDesign-${{ steps.version.outputs.preview_version }}.zip
             CheapMC-${{ steps.version.outputs.preview_version }}.zip
