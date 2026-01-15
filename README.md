@@ -42,3 +42,8 @@ Under the following conditions:
 * **Texture Style:** Cheap / low-quality inspired
 * **Creation Method:** Hand-pixelled
 * **License:** CC BY-SA 4.0
+
+## Authorship
+
+All textures in this repository were created from scratch by
+**deutschich** aka. **User404_** (2026). No original Minecraft or third-party assets were used.
