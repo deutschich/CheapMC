@@ -6,10 +6,6 @@
 
 This is the **official** [**GitHub Repository**](https://github.com/deutschich/CheapMC). Feel free to contribute to the project with creating own textures and add them with a [Pull Request on the official GitHub](https://github.com/deutschich/CheapMC/pulls) to add them to the **Official Pack**! (Please pull into the `dev` Branch and **not** into the `main` Branch)
 
-## Development Status
-
-CheapMC is currently in an **early alpha stage**. At this stage, only a small number of textures differ from the original Minecraft textures. Most of the vanilla visuals remain unchanged, and new textures are added gradually over time.
-
 ## Design Philosophy
 
 The goal of CheapMC is to reinterpret selected Minecraft textures with a cheap, imperfect, and mass-produced aesthetic. The resource pack does not aim to fully replace Minecraft’s original visual identity, but instead modifies individual elements step by step.
@@ -38,7 +34,7 @@ Under the following conditions:
 
 * **Name:** CheapMC
 * **Type:** Minecraft Resource Pack
-* **Status:** Alpha
+* **Status:** Release
 * **Texture Style:** Cheap / low-quality inspired
 * **Creation Method:** Hand-pixelled
 * **License:** CC BY-SA 4.0
