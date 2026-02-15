@@ -6,9 +6,12 @@
 
 This is the **official** [**GitHub Repository**](https://github.com/deutschich/CheapMC). Feel free to contribute to the project with creating own textures and add them with a [Pull Request on the official GitHub](https://github.com/deutschich/CheapMC/pulls) to add them to the **Official Pack**! (Please pull into the `dev` Branch and **not** into the `main` Branch)
 
-## Development Status
+## Stats
 
-CheapMC is currently in an **early alpha stage**. At this stage, only a small number of textures differ from the original Minecraft textures. Most of the vanilla visuals remain unchanged, and new textures are added gradually over time.
+![Modrinth Downloads](https://img.shields.io/modrinth/dt/CheapDesign?logo=modrinth&label=Modrinth%20Downloads&color=dark_green&link=https%3A%2F%2Fmodrinth.com%2Fresourcepack%2Fcheapdesign)
+![CurseForge Bedrock Downloads](https://img.shields.io/curseforge/dt/1425435?logo=curseforge&label=Cursforge%20Bedrock%20Downloads&color=black&link=https%3A%2F%2Fwww.curseforge.com%2Fminecraft-bedrock%2Ftexture-packs%2Fcheapdesign-bedrock)
+![CurseForge Java Downloads](https://img.shields.io/curseforge/dt/1425428?logo=curseforge&label=Cursforge%20Java%20Downloads&color=orange&link=https%3A%2F%2Fwww.curseforge.com%2Fminecraft%2Ftexture-packs%2Fcheapdesign)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/deutschich/CheapMC/dev?display_timestamp=author&label=Last%20Public%20Code%20Change)
 
 ## Design Philosophy
 
@@ -36,9 +39,8 @@ Under the following conditions:
 
 ## Project Information
 
-* **Name:** CheapMC
+* **Name:** CheapMC (CheapDesign)
 * **Type:** Minecraft Resource Pack
-* **Status:** Alpha
 * **Texture Style:** Cheap / low-quality inspired
 * **Creation Method:** Hand-pixelled
 * **License:** CC BY-SA 4.0
